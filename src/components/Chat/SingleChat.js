@@ -75,7 +75,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   //SOCKET setup of logged in user
   useEffect(() => {
     if (!socketConnected) {
-      socket = io(process.env.REACT_APP_MY_LOCAL_URL);
+      socket = io(process.env.REACT_APP_CHAT_SERVICE);
       socket.emit("setup", user);
       socket.on("connected", () => setSocketConnected(true));
       socket.on("typing", () => setIsTyping(true));

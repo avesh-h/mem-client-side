@@ -23,10 +23,10 @@ const createServiceAPI = (baseURL) => {
 };
 
 const servicesConfig = {
-  AUTH_API: "http://localhost:5000/api",
-  POST_API: "http://localhost:5001/api",
-  MAIL_API: "http://localhost:5002/api",
-  CHAT_API: "http://localhost:5003/api",
+  AUTH_API: process.env.REACT_APP_AUTH_API,
+  POST_API: process.env.REACT_APP_POST_API,
+  MAIL_API: process.env.REACT_APP_MAIL_API,
+  CHAT_API: process.env.REACT_APP_CHAT_API,
 };
 
 const AUTH_API = createServiceAPI(servicesConfig.AUTH_API);
