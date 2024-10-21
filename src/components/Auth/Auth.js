@@ -135,7 +135,7 @@ const Auth = () => {
 
   const googleFailure = (error) => {
     console.error(error);
-    console.error("User's registration is failed");
+    enqueueSnackbar("User's registration is failed", { variant: "error" });
   };
 
   return (
