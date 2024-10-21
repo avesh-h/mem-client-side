@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { ChatState } from "../../Context/ChatProvider";
-import { Box, Typography, Button, FormControl, TextField } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControl,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { enqueueSnackbar } from "notistack";
+import React, { useEffect, useState } from "react";
+import Lottie from "react-lottie";
+import { io } from "socket.io-client";
+import animationData from "../../animations/typing.json";
+import { fetchMessages, sendMessage } from "../../api/index";
+import { ChatState } from "../../Context/ChatProvider";
 import { getSender, getSenderObj } from "../../utils/ChatLogics";
 import ProfileModal from "../miscellaneous/ProfileModal";
 import UpdateChatGroupModal from "../miscellaneous/UpdateChatGroupModal";
-import { io } from "socket.io-client";
-import { CircularProgress } from "@mui/material";
-import { sendMessage, fetchMessages } from "../../api/index";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "./style.css";
 import ScrollableChat from "./ScrollableChat";
-import Lottie from "react-lottie";
-import animationData from "../../animations/typing.json";
+import "./style.css";
 
 var socket, selectedChatCompare;
 
@@ -52,15 +57,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       //Join the chat with socket by create room
       socket.emit("join chat", selectedChat?._id);
     } catch (error) {
-      toast.error("Error while getting messages!", {
-        position: "bottom-left",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Error while getting messages!", {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "left",
+        },
       });
     }
   };
@@ -130,15 +133,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setMessages([...messages, message]);
         socket.emit("new message", message);
       } catch (error) {
-        toast.error("Failed to send message!", {
-          position: "bottom-left",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        enqueueSnackbar("Failed to send message!", {
+          variant: "error",
+          transitionDuration: "0.5s",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "left",
+          },
         });
       }
     }
@@ -262,7 +263,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           <Typography>Click on user to start chatting.</Typography>
         </Box>
       )}
-      <ToastContainer />
     </>
   );
 };

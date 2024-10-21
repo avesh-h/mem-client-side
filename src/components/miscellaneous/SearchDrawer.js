@@ -5,11 +5,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
 import * as React from "react";
-import { ToastContainer, toast } from "react-toastify";
 import { ChatState } from "../../Context/ChatProvider";
 import { createChat, searchUser } from "../../api/index";
 import ChatLoading from "../Chat/ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
+import { enqueueSnackbar } from "notistack";
 
 export default function TemporaryDrawer() {
   const [search, setSearch] = React.useState("");
@@ -38,15 +38,9 @@ export default function TemporaryDrawer() {
   //handler Search functionality
   const handleSearch = async (e) => {
     if (!search) {
-      toast.error("Please add some Input", {
-        position: "top-left",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Please add some Input", {
+        variant: "error",
+        transitionDuration: "0.5s",
       });
     } else {
       try {
@@ -57,15 +51,9 @@ export default function TemporaryDrawer() {
         setLoading(false);
         setSearchResult(users);
       } catch (error) {
-        toast.error("Failed To Load Search Result!", {
-          position: "top-left",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+        enqueueSnackbar("Failed To Load Search Result!", {
+          variant: "error",
+          transitionDuration: "0.5s",
         });
       }
     }
@@ -84,15 +72,9 @@ export default function TemporaryDrawer() {
       setLoadingChat(false);
       closeDrawer();
     } catch (error) {
-      toast.error(error.message, {
-        position: "top-left",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar(error.message, {
+        variant: "error",
+        transitionDuration: "0.5s",
       });
     }
   };
@@ -167,7 +149,6 @@ export default function TemporaryDrawer() {
           </Drawer>
         </React.Fragment>
       ))}
-      <ToastContainer />
     </div>
   );
 }

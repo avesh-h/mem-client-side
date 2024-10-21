@@ -8,12 +8,11 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { gapi } from "gapi-script";
+import { enqueueSnackbar } from "notistack";
 import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { signin, signup } from "../../store/auth";
 import Input from "./common/Input";
 import Icon from "./icon";
@@ -42,9 +41,17 @@ const Auth = () => {
     if (isSignup) {
       const data = await dispatch(signup(formData));
       if (typeof data.payload === "string") {
-        toast.error(data.payload, { position: "top-center" });
+        enqueueSnackbar(data.payload, {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
       } else {
-        toast.success("Please verify your email");
+        enqueueSnackbar("Please verify your email", {
+          variant: "success",
+        });
         setFormData(initialState);
       }
     }
@@ -54,7 +61,13 @@ const Auth = () => {
       if (data.payload && typeof data.payload !== "string") {
         navigate("/");
       } else {
-        toast.error(data.payload, { position: "top-center" });
+        enqueueSnackbar(data.payload, {
+          variant: "error",
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "center",
+          },
+        });
       }
     }
   };
@@ -104,7 +117,13 @@ const Auth = () => {
         if (response.payload && typeof response.payload !== "string") {
           navigate("/");
         } else {
-          toast.error(response.payload, { position: "top-center" });
+          enqueueSnackbar(response.payload, {
+            variant: "error",
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "center",
+            },
+          });
         }
       } else {
         //Need to add feature signup with google
@@ -121,7 +140,6 @@ const Auth = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <ToastContainer />
       <Paper className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

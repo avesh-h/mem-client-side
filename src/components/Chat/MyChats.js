@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import { fetchChats } from "../../api/index";
-import { ToastContainer, toast } from "react-toastify";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ChatLoading from "./ChatLoading";
 import { getSender } from "../../utils/ChatLogics";
 import GroupChatModal from "../miscellaneous/GroupChatModal";
+import { enqueueSnackbar } from "notistack";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -17,15 +17,10 @@ const MyChats = ({ fetchAgain }) => {
       const { data } = await fetchChats();
       setChats(data);
     } catch (error) {
-      toast.error("Failed To Load chats!", {
-        position: "top-left",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Failed To Load chats!", {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: { vertical: "top" },
       });
     }
   };
@@ -108,7 +103,6 @@ const MyChats = ({ fetchAgain }) => {
           <ChatLoading />
         )}
       </Box>
-      <ToastContainer />
     </Box>
   );
 };

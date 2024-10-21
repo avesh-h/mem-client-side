@@ -1,3 +1,5 @@
+import { TurnedInNotRounded } from "@mui/icons-material";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import {
   Box,
   Button,
@@ -7,19 +9,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { enqueueSnackbar } from "notistack";
 import React, { useState } from "react";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { ChatState } from "../../Context/ChatProvider";
-import { toast, ToastContainer } from "react-toastify";
-import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import {
   addToGroup,
+  removeMemberFromGroup,
   renameGroup,
   searchUser,
-  removeMemberFromGroup,
 } from "../../api";
+import { ChatState } from "../../Context/ChatProvider";
+import UserBadgeItem from "../UserAvatar/UserBadgeItem";
 import UserListItem from "../UserAvatar/UserListItem";
-import { TurnedInNotRounded } from "@mui/icons-material";
 
 const style = {
   position: "absolute",
@@ -55,16 +55,13 @@ const UpdateChatGroupModal = ({
       selectedChat?.groupAdmin?._id !== user?.result?._id &&
       user1?._id !== user?.result?._id
     ) {
-      toast.error({
-        title: "Only Admin can remove member from the group!",
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Only Admin can remove member from the group!", {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
     }
     try {
@@ -82,17 +79,15 @@ const UpdateChatGroupModal = ({
       fetchMessageHandler();
       setLoading(false);
     } catch (error) {
-      toast.error({
-        title: error?.response?.data?.message,
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar(error?.response?.data?.message, {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
+
       setLoading(false);
     }
   };
@@ -100,32 +95,26 @@ const UpdateChatGroupModal = ({
   //Add user in group
   const handleAddUser = async (user1) => {
     if (selectedChat?.users?.find((u) => u?._id === user1?._id)) {
-      toast.error({
-        title: "User Alerady present in the group!",
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("User Alerady present in the group!", {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
       return;
     }
 
     //Error in adding member in grp
     if (selectedChat?.groupAdmin._id !== user?.result?._id) {
-      toast.error({
-        title: "Only Admin can add member in the group!",
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Only Admin can add member in the group!", {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
       return;
     }
@@ -142,16 +131,13 @@ const UpdateChatGroupModal = ({
       setSearchResult([]);
       setSearch("");
     } catch (error) {
-      toast.error({
-        title: error?.response?.data?.message,
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar(error?.response?.data?.message, {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
       setLoading(false);
     }
@@ -173,16 +159,13 @@ const UpdateChatGroupModal = ({
       setFetchAgain(!fetchAgain);
       setRenameLoading(false);
     } catch (error) {
-      toast.error({
-        title: error?.response?.data?.message,
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar(error?.response?.data?.message, {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
       setRenameLoading(false);
     }
@@ -201,15 +184,9 @@ const UpdateChatGroupModal = ({
       setSearchResult(data);
       setLoading(false);
     } catch (error) {
-      toast.error("Error Occured!", {
-        position: "bottom-left",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Error Occured!", {
+        variant: "error",
+        transitionDuration: "0.5s",
       });
     }
   };
@@ -293,7 +270,6 @@ const UpdateChatGroupModal = ({
           </Box>
         </Box>
       </Modal>
-      <ToastContainer />
     </div>
   );
 };

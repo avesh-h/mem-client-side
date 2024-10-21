@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from "react";
 import { Container } from "@material-ui/core";
-import "./index.css";
-import Navbar from "./components/Navbar/Navbar";
-import Home from "./components/Home/Home";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import React from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Auth from "./components/Auth/Auth";
-import PostDetails from "./components/PostDetails/PostDetails";
 import ChatPage from "./components/Chat/ChatPage";
-import { ChatProvider, ChatState } from "./Context/ChatProvider";
+import Home from "./components/Home/Home";
+import Navbar from "./components/Navbar/Navbar";
+import PostDetails from "./components/PostDetails/PostDetails";
+import { ChatState } from "./Context/ChatProvider";
+import "./index.css";
 
 const App = () => {
   const { user } = ChatState();

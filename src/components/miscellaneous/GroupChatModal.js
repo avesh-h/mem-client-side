@@ -1,14 +1,14 @@
-import * as React from "react";
+import { FormControl, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { toast, ToastContainer } from "react-toastify";
-import { ChatState } from "../../Context/ChatProvider";
-import { FormControl, TextField } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import { enqueueSnackbar } from "notistack";
+import * as React from "react";
 import { addGroupMember, searchUser } from "../../api";
-import UserListItem from "../UserAvatar/UserListItem";
+import { ChatState } from "../../Context/ChatProvider";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
+import UserListItem from "../UserAvatar/UserListItem";
 
 const style = {
   position: "absolute",
@@ -43,30 +43,22 @@ const GroupChatModal = ({ children }) => {
       setSearchResult(data);
       setLoading(false);
     } catch (error) {
-      toast.error("Error Occured!", {
-        position: "bottom-left",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Error Occured!", {
+        variant: "error",
+        transitionDuration: "0.5s",
       });
     }
   };
 
   const handleGroup = (userToAdd) => {
     if (selectedUser.includes(userToAdd)) {
-      toast.error("User already added!", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("User already added!", {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
       return;
     }
@@ -78,15 +70,13 @@ const GroupChatModal = ({ children }) => {
   //Creat group chat
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUser?.length) {
-      toast.error("Please field all the field!", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Please field all the field!", {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
       return;
     }
@@ -97,26 +87,22 @@ const GroupChatModal = ({ children }) => {
       });
       setChats([data, ...chats]);
       handleClose();
-      toast.success("New group chat created!", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("New group chat created!", {
+        variant: "success",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
     } catch (error) {
-      toast.error("Failed to create group!", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      enqueueSnackbar("Failed to create group!", {
+        variant: "error",
+        transitionDuration: "0.5s",
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "center",
+        },
       });
     }
   };
@@ -194,7 +180,6 @@ const GroupChatModal = ({ children }) => {
           </Box>
         </Box>
       </Modal>
-      <ToastContainer />
     </>
   );
 };
