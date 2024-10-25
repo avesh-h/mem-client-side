@@ -16,7 +16,7 @@ const ChatPage = () => {
         justifyContent="space-between"
         width="100%"
         height="91.5vh"
-        padding="10px"
+        pt={1.5}
       >
         {user && <MyChats fetchAgain={fetchAgain} />}
         {user && (

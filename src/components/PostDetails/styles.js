@@ -14,13 +14,16 @@ export default makeStyles((theme) => ({
       flexWrap: "wrap",
       flexDirection: "column",
     },
+    gap: "10px",
   },
   section: {
+    width: "40%",
     borderRadius: "20px",
     margin: "10px",
     flex: 1,
   },
   imageSection: {
+    width: "60%",
     marginLeft: "20px",
     [theme.breakpoints.down("sm")]: {
       marginLeft: 0,
