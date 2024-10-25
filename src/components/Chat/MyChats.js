@@ -19,8 +19,10 @@ const MyChats = ({ fetchAgain }) => {
     } catch (error) {
       enqueueSnackbar("Failed To Load chats!", {
         variant: "error",
-        transitionDuration: "0.5s",
-        anchorOrigin: { vertical: "top" },
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "left",
+        },
       });
     }
   };
