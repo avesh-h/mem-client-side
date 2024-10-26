@@ -181,7 +181,7 @@ const UpdateChatGroupModal = ({
     try {
       setLoading(true);
       const { data } = await searchUser(query);
-      setSearchResult(data);
+      setSearchResult((prev) => [...prev, ...data?.users]);
       setLoading(false);
     } catch (error) {
       enqueueSnackbar("Error Occured!", {
