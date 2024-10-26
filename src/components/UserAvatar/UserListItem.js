@@ -29,7 +29,14 @@ const UserListItem = ({ user, handleFunction }) => {
         />
         <Box>
           <Typography>{user.name}</Typography>
-          <Typography>
+          <Typography
+            sx={{
+              textOverflow: "ellipsis",
+              width: "260px",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
             <b>Email : </b>
             {user.email}
           </Typography>

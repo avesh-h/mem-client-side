@@ -1,6 +1,6 @@
 import { TextField, Typography } from "@material-ui/core";
 import SearchIcon from "@mui/icons-material/Search";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Drawer from "@mui/material/Drawer";
@@ -10,6 +10,7 @@ import { createChat, searchUser } from "../../api/index";
 import ChatLoading from "../Chat/ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
 import { enqueueSnackbar } from "notistack";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function TemporaryDrawer() {
   const [search, setSearch] = React.useState("");
@@ -33,7 +34,7 @@ export default function TemporaryDrawer() {
   };
 
   //Close Drawer
-  const closeDrawer = () => toggleDrawer("left", false);
+  const closeDrawer = () => setState({ left: false });
 
   //handler Search functionality
   const handleSearch = async (e) => {
@@ -71,6 +72,7 @@ export default function TemporaryDrawer() {
       setSelectedChat(chat);
       setLoadingChat(false);
       closeDrawer();
+      //For close drawer
     } catch (error) {
       enqueueSnackbar(error.message, {
         variant: "error",
@@ -90,12 +92,21 @@ export default function TemporaryDrawer() {
       //   onKeyDown={toggleDrawer(anchor, false)}
     >
       <Box>
-        <Typography
-          variant="h3"
-          style={{ fontSize: "20px", fontWeight: "600" }}
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
         >
-          Search User
-        </Typography>
+          <Typography
+            variant="h3"
+            style={{ fontSize: "20px", fontWeight: "600" }}
+          >
+            Search User
+          </Typography>
+          <Button onClick={toggleDrawer("left", false)}>
+            <CloseIcon />
+          </Button>
+        </Stack>
         <Box
           sx={{
             display: "flex",
