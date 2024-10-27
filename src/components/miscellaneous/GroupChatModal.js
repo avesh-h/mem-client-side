@@ -40,7 +40,7 @@ const GroupChatModal = ({ children }) => {
     try {
       setLoading(true);
       const { data } = await searchUser(query);
-      setSearchResult(data);
+      setSearchResult(data?.users);
       setLoading(false);
     } catch (error) {
       enqueueSnackbar("Error Occured!", {
